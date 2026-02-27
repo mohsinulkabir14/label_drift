@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+import os
+import json
+import re
+import sys
+
+import pandas as pd
+import yaml
+from dotenv import load_dotenv
+from tqdm import tqdm
+from openai import OpenAI
+import time
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+load_dotenv(os.path.join(project_root, "CLSLABEL", "api.env"))
+
+api_key = os.getenv("OPENAI_API_KEY", "").strip()
+MODEL_NAME = "gpt-4.1-mini"
+# If LIMIT is None, process the entire CSV
+LIMIT = None
+DATASET = "irony"  # irony or deptweet
+LANG = "bengali"  # bengali or greek
+RETRIES = 3
+WAIT_SECONDS = 2
+
+if not api_key:
+    print("OPENAI_API_KEY is not set.", file=sys.stderr)
+    sys.exit(1)
+
+client = OpenAI(api_key=api_key)
+
+datasets_dir = os.path.join(project_root, "CLSLABEL", "Datasets")
+output_dir = os.path.join(project_root, "CLSLABEL", "Output")
+prompts_path = os.path.join(project_root, "CLSLABEL", "Codes", "prompts.yaml")
+
+if DATASET == "irony":
+    default_input = os.path.join(datasets_dir, "irony_main.csv")
+    text_col = "tweet_text"
+    dataset_name = "irony"
+else:
+    default_input = os.path.join(datasets_dir, "deptweet_main.csv")
+    text_col = "tweet"
+    dataset_name = "deptweet"
+
+default_output = os.path.join(output_dir, f"{dataset_name}_{LANG}_gpt_4.1_mini_full_translations.csv")
+
+input_path = os.getenv("INPUT_PATH") or default_input
+output_path = os.getenv("OUTPUT_PATH") or default_output
+
+with open(prompts_path, "r", encoding="utf-8") as f:
+    prompts = yaml.safe_load(f)
+
+template = prompts["languages"][LANG]["dual_translation"]
+
+os.makedirs(output_dir, exist_ok=True)
+
+df = pd.read_csv(input_path)
+if text_col not in df.columns:
+    print(f"Expected column '{text_col}' in the input dataset.", file=sys.stderr)
+    sys.exit(1)
+
+rows = []
+subset = df if LIMIT is None else df.head(max(0, LIMIT))
+for _, row in tqdm(subset.iterrows(), total=len(subset)):
+    text = "" if pd.isna(row[text_col]) else str(row[text_col]).strip()
+    if not text:
+        rows.append({"original_text": "", "literal_translation": None, "cultural_translation": None})
+        continue
+
+    prompt = template.replace("{text}", text)
+    success = False
+    last_err = None
+    for attempt in range(RETRIES):
+        try:
+            response = client.responses.create(model=MODEL_NAME, input=prompt)
+            s = response.output_text.strip() if hasattr(response, "output_text") else json.dumps(response.dict())
+            try:
+                data = json.loads(s)
+            except Exception:
+                m = re.search(r"\{[\s\S]*\}", s)
+                data = json.loads(m.group(0)) if m else {"literal": None, "cultural": None}
+            rows.append({
+                "original_text": text,
+                "literal_translation": data.get("literal"),
+                "cultural_translation": data.get("cultural"),
+            })
+            success = True
+            break
+        except Exception as e:
+            last_err = str(e)
+            time.sleep(WAIT_SECONDS)
+    if not success:
+        rows.append({"original_text": text, "literal_translation": None, "cultural_translation": None, "error": last_err})
+
+pd.DataFrame(rows).to_csv(output_path, index=False)
+print(f"Wrote translations to: {output_path}")
