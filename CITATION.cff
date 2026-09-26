@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the LREC 2026 paper below."
+title: "Semantic Label Drift in Cross-Cultural Translation"
+abstract: >-
+  Machine Translation is widely employed to address resource scarcity in
+  low-resource languages by translating data from high-resource languages.
+  This work shows that semantic labels drift during translation because of
+  cultural divergence between source and target languages.
+authors:
+  - family-names: Kabir
+    given-names: Mohsinul
+  - family-names: Ahmed
+    given-names: Tasnim
+  - family-names: Rahman
+    given-names: Md Mezbaur
+  - family-names: Giannouris
+    given-names: Polydoros
+  - family-names: Ananiadou
+    given-names: Sophia
+repository-code: "https://github.com/mohsinulkabir14/label_drift"
+license: MIT
+preferred-citation:
+  type: conference-paper
+  title: "Semantic Label Drift in Cross-Cultural Translation"
+  authors:
+    - family-names: Kabir
+      given-names: Mohsinul
+    - family-names: Ahmed
+      given-names: Tasnim
+    - family-names: Rahman
+      given-names: Md Mezbaur
+    - family-names: Giannouris
+      given-names: Polydoros
+    - family-names: Ananiadou
+      given-names: Sophia
+  collection-title: "Proceedings of the Fifteenth Language Resources and Evaluation Conference"
+  publisher:
+    name: "ELRA Language Resource Association"
+  conference:
+    name: "LREC 2026"
+  location:
+    name: "Palma de Mallorca, Spain"
+  month: 5
+  year: 2026
+  start: 3714
+  end: 3724
+  doi: "10.63317/5ae9txdv2s3g"
+  url: "https://aclanthology.org/2026.lrec-1.297/"

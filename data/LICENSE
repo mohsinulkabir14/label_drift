@@ -1,0 +1,29 @@
+The CSV files in this directory are released under the
+Creative Commons Attribution-NonCommercial 4.0 International Licence
+(CC BY-NC 4.0).
+
+Full text: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+Summary:   https://creativecommons.org/licenses/by-nc/4.0/
+
+You are free to share and adapt the material for non-commercial purposes,
+provided you give appropriate credit and indicate if changes were made.
+
+UPSTREAM TERMS
+--------------
+These files are sampled and relabelled subsets of two existing corpora. The
+original terms of those corpora continue to apply alongside this licence, and
+they must be cited in any work that uses this data:
+
+  deptweet_main.csv
+    Derived from DepTweet.
+    Kabir et al. (2023), "DEPTWEET: A typology for social media texts to
+    detect depression severities", Computers in Human Behavior.
+
+  irony_main.csv
+    Derived from the SemEval-2018 Task 3 irony detection corpus.
+    Van Hee et al. (2018), "SemEval-2018 Task 3: Irony Detection in English
+    Tweets", Proceedings of SemEval-2018.
+
+Tweet text is redistributed here for research reproducibility. Anyone
+redistributing it further should check the current terms of the upstream
+datasets and of the X/Twitter developer policy.

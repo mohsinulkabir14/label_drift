@@ -18,11 +18,12 @@ from report_formatting import (
 )
 
 # Configuration
-OUTPUT_DIR = "../../Output/Evaluation"
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, "outputs", "evaluation")
 
 def process_all_annotation_files():
     """Automatically process all annotation files in the Annotation folder"""
-    annotation_dir = "../../Output/Annotation"
+    annotation_dir = os.path.join(PROJECT_ROOT, "outputs", "annotations")
     annotation_files = []
     
     # Find all annotation CSV files (ignore sample files)

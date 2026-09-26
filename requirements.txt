@@ -1,7 +1,20 @@
-anthropic
-openai
-requests
+# Core
 pandas
+numpy
 PyYAML
 python-dotenv
 tqdm
+
+# Translation backends
+anthropic        # claude_generate.py
+openai           # gpt_generate.py
+requests         # deepseek_generate.py
+
+# NLLB baseline (src/generation/nllb_generate.py)
+transformers
+torch
+sentencepiece
+
+# Evaluation
+scikit-learn
+scipy
