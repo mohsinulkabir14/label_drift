@@ -1,0 +1,259 @@
+languages:
+  bengali:
+    dual_translation: |
+                      Translate this English text to Bengali in TWO ways:
+                      1. Literal translation (word-for-word accuracy):
+                      "{text}"
+
+                      2. Culturally-adapted translation (as a 50-year-old educated Dhaka male):
+                      "{text}"
+
+                      Return ONLY a JSON format like this:
+                      {
+                          "literal": "[LITERAL_TRANSLATION]",
+                          "cultural": "[CULTURAL_TRANSLATION]"
+                      }
+
+  greek:
+    dual_translation: |
+                      Translate this English text to Greek in TWO ways:
+                      1. Literal translation (word-for-word accuracy):
+                      "{text}"
+
+                      2. Culturally-adapted translation (as a 50-year-old educated Athens male):
+                      "{text}"
+
+                      Return ONLY a JSON format like this:
+                      {
+                          "literal": "[LITERAL_TRANSLATION]",
+                          "cultural": "[CULTURAL_TRANSLATION]"
+                      }
+
+evaluation:
+  deptweet: |
+            You are an expert mental health data annotator. I will provide you two {LANG_NAME} sentences, you need to annotate them based on the given guidelines.
+            Guidelines:
+            1. Non-Depressed:
+            Label as  0 (Non-Depressed) if the tweet:
+
+            -Expresses positive emotions (e.g., joy, excitement).
+
+            -Discusses depression in general without reflecting personal experience.
+
+            -Mentions casual sadness or tiredness (e.g., sad about a sports game).
+
+            -Shows temporary hopelessness or any other emotion that is not depression.
+
+            2. Mildly Depressed:
+            Label as 1 (Mildly Depressed) if the tweet expresses:
+
+            -Ongoing hopelessness or disinterest.
+
+            -Signs like fatigue, insomnia, low motivation, social withdrawal.
+
+            -Negative self-perception or reckless behavior (e.g., alcohol/drug use).
+
+            -Symptoms are present but not severely disruptive to daily life.
+
+            3. Moderately Depressed:
+            Label as 2 (Moderately Depressed) if:
+
+            -Same symptoms as “Mild,” but they interfere with work/home life.
+
+            -Mentions of worthlessness, excessive worry, or low productivity.
+
+            -The emotional impact is clearly deeper and more disruptive.
+
+            4. Severely Depressed:
+            Label as 3 (Severely Depressed) if the tweet shows:
+
+            -Suicidal thoughts/behaviors.
+
+            -Delusions or hallucinations.
+
+            -Extreme numbness or detachment from reality.
+
+            -Symptoms that are highly noticeable or life-threatening.
+
+            Here are the input {LANG_NAME} sentences:
+
+
+            Literal translation: "{literal}"
+            Cultural translation: "{cultural}"
+
+            Do not add any explanations or comments. Only return your response in EXACTLY this format:
+            literal translation label: [label]
+            cultural translation label: [label]
+
+  irony: |
+            You are an expert data annotator for irony detection. I will provide you two {LANG_NAME} sentences, you need to annotate them based on the given guidelines.
+
+            Guidelines:
+            1. Non ironic
+            Label the tweet as 0 (non-ironic) if:
+            - No contradiction between literal meaning and intended meaning.
+
+            - No unexpected reversal of events.
+
+            - No ironic tone or hashtags.
+
+            2. Ironic by Clash
+            Label the tweet as 1 (ironic-by-clash) if:
+
+            - The literal sentiment is opposite to the intended sentiment.
+
+            - Often sarcastic or mocking in tone.
+
+            - May use exaggeration or absurdity.
+
+            - Key signs: a) Positive words used negatively, or negative words used positively. b) Hashtags like #sarcasm, #irony, #not reinforcing the contradiction.
+
+            3. Situational Irony
+            Label the tweet as 2 (situational-irony) if:
+
+            - The situation described produces an outcome opposite to expectations.
+
+            - The irony comes from reality, not from a literal/intended meaning clash in wording.
+
+            - The text often describes events or outcomes rather than expressing direct opinion.
+
+            4. Other Irony
+            Label the tweet as 3 (other-irony) if the tweet is Ironic, but:
+
+            - Does not Involve a polarity clash (category 1), and
+
+            - Does not involve expectation vs. outcome .
+
+            - Often includes playful irony, ironic understatement, ironic praise, or cultural references.
+
+            Guidelines:
+
+            - Consider both explicit sentiment words and implicit sentiment implied by context.
+
+            - If sentiment interpretation is subjective (e.g., “winter weather”), use commonly held opinions unless strong context suggests otherwise.
+
+            - Hashtags or emojis (🙃, 😏) can signal irony.
+
+            Choose the most dominant category based on the context of the tweet if more than one applies.
+
+            Here are the input {LANG_NAME} sentences:
+
+
+            Literal translation: "{literal}"
+            Cultural translation: "{cultural}"
+
+            Do not add any explanations or comments. Only return your response in EXACTLY this format:
+            
+            literal translation label: [label]
+            cultural translation label: [label]
+
+# Literal-only evaluation prompts (for gTranslate single translation files)
+evaluation_literal:
+  deptweet: |
+            You are an expert mental health data annotator. I will provide you one {LANG_NAME} sentence, you need to annotate it based on the given guidelines.
+            Guidelines:
+            1. Non-Depressed:
+            Label as  0 (Non-Depressed) if the tweet:
+
+            -Expresses positive emotions (e.g., joy, excitement).
+
+            -Discusses depression in general without reflecting personal experience.
+
+            -Mentions casual sadness or tiredness (e.g., sad about a sports game).
+
+            -Shows temporary hopelessness or any other emotion that is not depression.
+
+            2. Mildly Depressed:
+            Label as 1 (Mildly Depressed) if the tweet expresses:
+
+            -Ongoing hopelessness or disinterest.
+
+            -Signs like fatigue, insomnia, low motivation, social withdrawal.
+
+            -Negative self-perception or reckless behavior (e.g., alcohol/drug use).
+
+            -Symptoms are present but not severely disruptive to daily life.
+
+            3. Moderately Depressed:
+            Label as 2 (Moderately Depressed) if:
+
+            -Same symptoms as “Mild,” but they interfere with work/home life.
+
+            -Mentions of worthlessness, excessive worry, or low productivity.
+
+            -The emotional impact is clearly deeper and more disruptive.
+
+            4. Severely Depressed:
+            Label as 3 (Severely Depressed) if the tweet shows:
+
+            -Suicidal thoughts/behaviors.
+
+            -Delusions or hallucinations.
+
+            -Extreme numbness or detachment from reality.
+
+            -Symptoms that are highly noticeable or life-threatening.
+
+            Here is the input {LANG_NAME} sentence: "{literal}"
+
+            Do not add any explanations or comments. The label must be a single integer. Only return your response in EXACTLY this format:
+
+            label: [label]
+
+  irony: |
+            You are an expert data annotator for irony detection. I will provide you one {LANG_NAME} sentence, you need to annotate it based on the given guidelines.
+
+            Guidelines:
+            1. Non ironic
+            Label the tweet as 0 (non-ironic) if:
+            - No contradiction between literal meaning and intended meaning.
+
+            - No unexpected reversal of events.
+
+            - No ironic tone or hashtags.
+
+            2. Ironic by Clash
+            Label the tweet as 1 (ironic-by-clash) if:
+
+            - The literal sentiment is opposite to the intended sentiment.
+
+            - Often sarcastic or mocking in tone.
+
+            - May use exaggeration or absurdity.
+
+            - Key signs: a) Positive words used negatively, or negative words used positively. b) Hashtags like #sarcasm, #irony, #not reinforcing the contradiction.
+
+            3. Situational Irony
+            Label the tweet as 2 (situational-irony) if:
+
+            - The situation described produces an outcome opposite to expectations.
+
+            - The irony comes from reality, not from a literal/intended meaning clash in wording.
+
+            - The text often describes events or outcomes rather than expressing direct opinion.
+
+            4. Other Irony
+            Label the tweet as 3 (other-irony) if the tweet is Ironic, but:
+
+            - Does not Involve a polarity clash (category 1), and
+
+            - Does not involve expectation vs. outcome .
+
+            - Often includes playful irony, ironic understatement, ironic praise, or cultural references.
+
+            Guidelines:
+
+            - Consider both explicit sentiment words and implicit sentiment implied by context.
+
+            - If sentiment interpretation is subjective (e.g., “winter weather”), use commonly held opinions unless strong context suggests otherwise.
+
+            - Hashtags or emojis (🙃, 😏) can signal irony.
+
+            Choose the most dominant category based on the context of the tweet if more than one applies.
+
+            Here is the input {LANG_NAME} sentence: "{literal}"
+
+            Do not add any explanations or comments. The label must be a single integer. Only return your response in EXACTLY this format:
+
+            label: [label]
+            

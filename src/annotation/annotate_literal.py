@@ -28,11 +28,11 @@ print(f"Starting annotation for {FILE_NAME}...")
 
 
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-OUTPUT_DIR = os.path.join(ROOT, "Output")
-ANNOTATION_DIR = os.path.join(OUTPUT_DIR, "Annotation")
-PROMPTS_PATH = os.path.join(ROOT, "Codes", "prompts.yaml")
-load_dotenv(os.path.join(ROOT, ".env"))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+TRANSLATION_DIR = os.path.join(PROJECT_ROOT, "outputs", "translations")
+ANNOTATION_DIR = os.path.join(PROJECT_ROOT, "outputs", "annotations")
+PROMPTS_PATH = os.path.join(PROJECT_ROOT, "prompts", "prompts.yaml")
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "").strip()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
@@ -46,7 +46,7 @@ with open(PROMPTS_PATH, "r", encoding="utf-8") as f:
     PROMPTS = yaml.safe_load(f)
 EVAL_TEMPLATE = PROMPTS["evaluation_literal"][TASK]
 
-LOG_DIR = os.path.join(ANNOTATION_DIR, "Logs")
+LOG_DIR = os.path.join(ANNOTATION_DIR, "logs")
 os.makedirs(LOG_DIR, exist_ok=True)
 RUN_START = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
 LOG_FILE = os.path.join(LOG_DIR, f"annotation_log_literal_{RUN_START}.csv")
@@ -142,7 +142,7 @@ def judge_deepseek_literal(literal: str, file_name: str, sample_idx: int, sample
 
 
 def annotate_literal_file(file_name: str, limit: int = 2) -> str:
-    in_path = os.path.join(OUTPUT_DIR, file_name)
+    in_path = os.path.join(TRANSLATION_DIR, file_name)
     if not os.path.exists(in_path):
         raise FileNotFoundError(in_path)
     df = pd.read_csv(in_path)

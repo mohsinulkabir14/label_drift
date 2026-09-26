@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import re
 
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+
 def extract_dataset_info(filename):
     """Extract dataset and model information from filename"""
     # Example: Annotation_deptweet_bengali_gpt_4.1_mini_full_translations.csv
@@ -69,11 +72,11 @@ def generate_output_filename(dataset, language, model):
 def get_dataset_file(dataset):
     """Get the appropriate dataset file based on dataset type"""
     if dataset == 'deptweet':
-        return "../../Datasets/deptweet_main.csv"
+        return os.path.join(DATA_DIR, "deptweet_main.csv")
     elif dataset == 'irony':
-        return "../../Datasets/irony_main.csv"
+        return os.path.join(DATA_DIR, "irony_main.csv")
     else:
-        return "../../Datasets/deptweet_main.csv"  # default fallback
+        return os.path.join(DATA_DIR, "deptweet_main.csv")  # default fallback
 
 def get_class_mapping(dataset):
     """Get class mapping based on dataset type"""

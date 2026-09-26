@@ -49,8 +49,8 @@ def translate(text, src_lang, tgt_lang, model_name="facebook/nllb-200-1.3B"):
     return translated_text
 
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-load_dotenv(os.path.join(project_root, ".env"))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
 
 
 # MODEL_NAME = "facebook/nllb-200-1.3B"
@@ -73,8 +73,8 @@ TGT_LANG = TGT_LANG_MAP[LANG]
 print(f"Dataset: {DATASET}, Language: {LANG}, Model Name: {MODEL_NAME}")
 
 
-datasets_dir = os.path.join(project_root, "Datasets")
-output_dir = os.path.join(project_root, "Output")
+datasets_dir = os.path.join(PROJECT_ROOT, "data")
+output_dir = os.path.join(PROJECT_ROOT, "outputs", "translations")
 
 
 if DATASET == "irony":

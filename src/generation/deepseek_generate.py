@@ -11,8 +11,8 @@ from tqdm import tqdm
 import requests
 import time
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-load_dotenv(os.path.join(project_root, ".env"))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
 
 api_key = os.getenv("DEEPSEEK_API_KEY", "").strip()
 MODEL_NAME = "deepseek-chat"
@@ -32,9 +32,9 @@ if not api_key:
 
 API_URL = "https://api.deepseek.com/v1/chat/completions"
 
-datasets_dir = os.path.join(project_root, "Datasets")
-output_dir = os.path.join(project_root, "Output")
-prompts_path = os.path.join(project_root, "Codes", "prompts.yaml")
+datasets_dir = os.path.join(PROJECT_ROOT, "data")
+output_dir = os.path.join(PROJECT_ROOT, "outputs", "translations")
+prompts_path = os.path.join(PROJECT_ROOT, "prompts", "prompts.yaml")
 
 if DATASET == "irony":
     default_input = os.path.join(datasets_dir, "irony_main.csv")
